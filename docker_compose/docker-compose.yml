@@ -1,0 +1,45 @@
+version: '3'
+
+# docker-compose build (1x only if you edit the Dockerfile or files used by it)
+# docker-compose up    (everytime you start the pipeline)
+
+# a list of all containers you intend to use
+services:
+
+  # first: non-SQL DB
+  mongodb:          # name : also the hostname
+    image: mongo    # image downloaded from DockerHub
+    ports:
+    - 27017:27017        # maps port 27017 *inside* the container to port 27017 on my local machine
+                       
+    #environment:       # set an environment variable
+    #- POSTGRES_PASSWORD=titanic99
+
+  # second: run tweet collector Python
+  twitter:              # name
+    build: app/     # look for a Dockerfile here -> creates an image
+    volumes:               # this is how we get the python program + files in:
+    - ./app/:/app   # makes the twitter_collector/ folder available in the container as app/
+    depends_on:            # this means that the mongodb container is started then the twitter_collector
+    - mongodb         # docker-compose exec mongodb mongosh --> to connect via terminal to mongodb inside docker
+
+  #third: SQL DB
+  postgresdb:
+    image: postgres
+    ports:
+    - 5555:5432   #maps port 5555 *inside* the container to port 5432 on my local machine
+    env_file:
+    - credentials.env
+    #docker exec -it docker_compose_prod_postgresdb_1 psql -U postgres  --> to connect via terminal from to postgresdb inside docker 
+    #docker-compose exec postgresdb /bin/bash --> connect to bash in container postgresdb of docker-compose, then: psql -h localhost -p 5432 -U postgres --> INSIDE container already, connect via 5432 to postgres
+    #psql -h 127.0.0.1 -p 5555 -U postgres --> to connect via terminal from the localhost to postgresdb inside docker
+
+  # fourth: run ETL Python    #docker start docker_compose_prod_etl_1 -i --> to start this container individually and return a print
+  etl:              # name
+    build: etl_job/     # look for a Dockerfile here -> creates an image
+    volumes:               # this is how we get the python program + files in:
+    - ./etl_job/:/app   # makes the etl_job/ folder available in the container as app/
+    depends_on:            # this means that the mongodb AND postgredb container is started then the etl container
+    - mongodb         # docker-compose exec mongodb mongosh --> to connect via terminal to mongodb inside docker
+    - postgresdb
+     
