@@ -1,7 +1,8 @@
 # Docker_Projects
 
 Twitter-Bot-Pipeline
-docker compose pipeline:
+
+using docker compose
 
 - collecting tweets via the twitter API on a given hashtag
 - storing tweets in a MongoDB
