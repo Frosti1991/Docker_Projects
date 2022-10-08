@@ -1,0 +1,4 @@
+#POSTGRES DB
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="GarlicBoosting"
+POSTGRES_DB="tweets"
