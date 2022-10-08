@@ -1,0 +1,7 @@
+API_Key="Hnwg0dLtWQ9A3AZYD5eK5zGZw"
+
+API_Key_Secret="eYWR8Ls3BkesvK9IQj2vGhVErLuE0yzbt19hI3n1QS8amqlzgQ"
+
+Bearer_Token="AAAAAAAAAAAAAAAAAAAAAHLuhgEAAAAARiTL5YcOwMl8HnsghntjpMcxAEc%3DzOaZScLCiKQSSTgO4NvsHQaO80TmeJ2Ju9X1LDBGlMOMpQV4pC"
+
+UserName="FrostiChristoph"
